@@ -10,6 +10,12 @@ def _check_and_balance(df: pd.DataFrame, target_col: str = "target", random_stat
 	"""Return a balanced dataframe by undersampling majority classes to the minority count.
 
 	If the dataframe is already balanced (all classes equal), it's returned unchanged.
+	Args:
+		df (pd.DataFrame): The input dataframe to balance.
+		target_col (str, optional): The name of the target column. Defaults to "target".
+		random_state (int, optional): Random state for reproducibility. Defaults to 42.
+	Returns:
+		pd.DataFrame: A balanced dataframe.
 	"""
 	counts = df[target_col].value_counts()
 	if counts.nunique() == 1:
