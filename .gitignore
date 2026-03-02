@@ -1,6 +1,29 @@
+# Environment
 .env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+dist/
+*.egg-info/
+
+# Data 
 data/
-models/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# Project metadata
 .github/
 .specify/
 .vscode/
