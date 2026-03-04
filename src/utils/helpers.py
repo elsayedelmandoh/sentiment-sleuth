@@ -275,25 +275,31 @@ def show_top_ngrams_by_class(df, target_col='review_target', text_col='review_cl
 def add_basic_meta_features(df: pd.DataFrame, text_col: str = 'review_content') -> pd.DataFrame:
 	"""
 	Add basic meta-features to `df` based on the text column `text_col`.
-	Features added: exclamation_count, question_count, uppercase_count, uppercase_ratio,
-	word_count, avg_word_length, punctuation_count.
-
-	The function is tolerant if the column is missing (raises KeyError).
+	Feature column names are prefixed with a sanitized version of `text_col`
+	(e.g. "review_title" -> "review_title_exclamation_count") to avoid collisions.
 	"""
 	if text_col not in df.columns:
 		raise KeyError(f"Text column '{text_col}' not found in dataframe")
 
+	# sanitize column name for use as prefix
+	prefix = re.sub(r'\W+', '_', text_col).strip('_').lower()
+	if not prefix:
+		prefix = 'text'
+
 	s = df[text_col].fillna("").astype(str)
 	df = df.copy()
-	df['exclamation_count'] = s.str.count('!')
-	df['question_count'] = s.str.count('\?')
-	df['punctuation_count'] = s.str.count(r"[^\w\s]")
-	df['word_count'] = s.str.split().apply(lambda ws: len(ws) if isinstance(ws, list) else 0)
-	df['avg_word_length'] = s.str.split().apply(lambda ws: np.mean([len(w) for w in ws]) if isinstance(ws, list) and len(ws) else 0)
-	# Uppercase counts and ratio (use string length to avoid division by zero)
-	df['uppercase_count'] = s.apply(lambda x: sum(1 for c in x if c.isupper()))
+
+	df[f'{prefix}_exclamation_count'] = s.str.count(r'!')
+	df[f'{prefix}_question_count'] = s.str.count(r'\?')
+	df[f'{prefix}_punctuation_count'] = s.str.count(r"[^\w\s]")
+	df[f'{prefix}_word_count'] = s.str.split().apply(lambda ws: len(ws) if isinstance(ws, list) else 0)
+	df[f'{prefix}_avg_word_length'] = s.str.split().apply(
+		lambda ws: float(np.mean([len(w) for w in ws])) if isinstance(ws, list) and len(ws) else 0.0
+	)
+	df[f'{prefix}_uppercase_count'] = s.apply(lambda x: sum(1 for c in x if c.isupper()))
 	lengths = s.str.len().replace(0, 1)
-	df['uppercase_ratio'] = df['uppercase_count'] / lengths
+	df[f'{prefix}_uppercase_ratio'] = df[f'{prefix}_uppercase_count'] / lengths
+
 	return df
 
 
