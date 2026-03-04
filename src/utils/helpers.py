@@ -362,4 +362,4 @@ def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_s
 	return emb
 
 
-
+# logistic regression notebook
