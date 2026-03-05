@@ -4,10 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import html
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import joblib
+from typing import Union
+from sklearn.feature_extraction.text import CountVectorizer
 import unicodedata
-
+import joblib
+import scipy.sparse as sp
 from sklearn.decomposition import TruncatedSVD, PCA
 from sklearn.manifold import TSNE
 from sklearn.utils import check_random_state
@@ -18,42 +19,62 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 
+
 # data acquisition notebook
-def save(base_path, df: pd.DataFrame = None, vectorizer=None, model=None,
-		 df_name: str = "dataset.csv", vectorizer_name: str = "vectorizer.joblib",
-		 model_name: str = "model.joblib", verbose: bool = True):
+def save(df_base: str = "data/processed", df: Union[pd.DataFrame, pd.Series] = None, df_name: str = "dataset.csv", 
+		 vectorizer_base: str = "data/vectorizers", vectorizer=None, vectorizer_name: str = "vectorizer.joblib", 
+		 vectors_base: str = "data/vectorizers", vectors= None, vectors_name: str = "vectors.npz", 
+		 model_base: str = "data/models", model=None, model_name: str = "model.joblib", 
+		 verbose: bool = True):
 	"""
-	Save a dataframe (CSV), a vectorizer (joblib) and/or a model (joblib) to disk.
-	Any of df/vectorizer/model can be None and will be skipped.
+	Save a dataframe (CSV), a vectorizer (joblib), a model (joblib) and/or sparse vectors (npz) to disk.
+	Each artifact type can have its own base path.
 	"""
-	base = Path(base_path)
-	base.mkdir(parents=True, exist_ok=True)
 
 	saved = {}
-	# CSV
+	# Helper function to create dir and return full path
+	def get_full_path(base, name):
+		base_dir = Path(base)
+		base_dir.mkdir(parents=True, exist_ok=True)
+		return base_dir / name
+
+	# save CSV (dataframe)
 	if df is not None:
-		path = base / df_name
+		path = get_full_path(df_base, df_name)
 		df.to_csv(path, index=False)
 		saved['csv'] = path
 		if verbose:
-			print(f"Saved dataframe to {path}")
+			print(f"Saved dataframe {df_name} to {path}")
 
-	# joblib (vectorizer and model)
+	# save joblib (vectorizer)
 	if vectorizer is not None:
-		_dump = lambda obj, p: joblib.dump(obj, p)
-		path = base / vectorizer_name
-		_dump(vectorizer, path)
+		if joblib is None:
+			raise ImportError("joblib is required to save vectorizer; install with `pip install joblib`")
+		path = get_full_path(vectorizer_base, vectorizer_name)
+		joblib.dump(vectorizer, path)
 		saved['vectorizer'] = path
 		if verbose:
-			print(f"Saved vectorizer to {path}")
+			print(f"Saved vectorizer {vectorizer_name} to {path}")
+	
+	# save npz for sparse matrices
+	if vectors is not None:
+		if sp is None:
+			raise ImportError("scipy is required to save sparse vectors; install with `pip install scipy`")
+		path = get_full_path(vectors_base, vectors_name)
+		sp.save_npz(path, vectors)
+		saved['vectors'] = path
+		if verbose:
+			print(f"Saved vectors {vectors_name} to {path}")
 
+	# save joblib (ML model)
 	if model is not None:
-		_dump = lambda obj, p: joblib.dump(obj, p)
-		path = base / model_name
-		_dump(model, path)
+		if joblib is None:
+			raise ImportError("joblib is required to save model; install with `pip install joblib`")
+		path = get_full_path(model_base, model_name)
+		joblib.dump(model, path)
 		saved['model'] = path
 		if verbose:
-			print(f"Saved model to {path}")
+			print(f"Saved model {model_name} to {path}")
 
 	return saved
 
@@ -369,3 +390,8 @@ def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_s
 
 
 # logistic regression notebook
+
+
+
+# naive bayes notebook
+
