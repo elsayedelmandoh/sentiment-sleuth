@@ -17,6 +17,7 @@ import emoji
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from datetime import datetime
 
 
 
@@ -288,6 +289,7 @@ def show_top_ngrams_by_class(df, target_col='review_target', text_col='review_cl
 				plt.title(f"Top {len(terms)} {nname} for class {cls}")
 				plt.xlabel("Count")
 				plt.tight_layout()
+				plt.savefig(f'data/predictions/top_{nname}_for_class_{cls}.png', dpi=300, bbox_inches='tight')
 				plt.show()
 
 	return results
@@ -324,7 +326,7 @@ def add_basic_meta_features(df: pd.DataFrame, text_col: str = 'review_content') 
 	return df
 
 
-def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_state: int = 42, figsize=(8,6)):
+def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_state: int = 42, figsize=(8,6), data_name: str = None):
 	"""
 	Reduce `X` to 2D and plot colored by `labels`.
 
@@ -332,6 +334,8 @@ def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_s
 	- `method` can be 'PCA' or 'TSNE'. For 'TSNE', X is first reduced to 50 components
 	  (when high-dimensional) using TruncatedSVD for speed.
 	- `sample` controls maximum number of points to plot (random sampling).
+	- `data_name` optional string used in the saved filename (e.g. 'train','valid','test').
+	  If None a timestamp will be used to avoid overwriting files.
 
 	Returns the (n_samples,2) embedding array.
 	"""
@@ -384,6 +388,7 @@ def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_s
 	plt.xlabel('dim1')
 	plt.ylabel('dim2')
 	plt.title(f'{method} projection')
+	plt.savefig(f'data/predictions/{method}_projection_{data_name}_{i}.png', dpi=300, bbox_inches='tight')
 	plt.show()
 
 	return emb
