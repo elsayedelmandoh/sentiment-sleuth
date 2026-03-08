@@ -1,7 +1,10 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+try:
+	import matplotlib.pyplot as plt
+except Exception:
+	plt = None
 import re
 import html
 from typing import Union
@@ -419,33 +422,27 @@ def ensure_nltk_resources(verbose: bool = False):
 
 
 def load_assets():
-	import streamlit as st
-	try:
-		vectorizer = joblib.load(r'data/vectorizers/tfidf_vectorizer.joblib')
-		lr_model = joblib.load(r'data/models/05_logistic_regression_classifier.joblib')
-		nb_model = joblib.load(r'data/models/06_naive_bayes_classifier.joblib')
-		ft_svm_model = joblib.load(r'data/models/07_ft_support_vector_machine_classifier.joblib')
-		linear_svm_model = joblib.load(r'data/models/07_linear_svm_classifier.joblib')
-		knn_model = joblib.load(r'data/models/08_knn_classifier.joblib')
-		decision_tree_model = joblib.load(r'data/models/09_decision_tree_classifier.joblib')
-		random_forest_model = joblib.load(r'data/models/10_random_forest_classifier.joblib')
-		sgd_model = joblib.load(r'data/models/11_stochastic_gradient_descent_classifier.joblib')
-		xgboost_model = joblib.load(r'data/models/12_xgboost_classifier.joblib')
-		lightgbm_model = joblib.load(r'data/models/13_lightgbm_classifier.joblib')
-		return (
-			vectorizer,
-			lr_model,
-			nb_model,
-			ft_svm_model,
-			linear_svm_model,
-			knn_model,
-			decision_tree_model,
-			random_forest_model,
-			sgd_model,
-			xgboost_model,
-			lightgbm_model,
-		)
-	except Exception as e:
-		st.error(f"Error loading models. Ensure the .joblib files are in the correct paths.\n{e}")
-		return (None, None, None, None, None, None, None, None, None, None, None)
+	# load assets individually to allow partial availability and clearer diagnostics
+	assets = []
+	paths = [
+		r'data/vectorizers/tfidf_vectorizer.joblib',
+		r'data/models/05_logistic_regression_classifier.joblib',
+		r'data/models/06_naive_bayes_classifier.joblib',
+		r'data/models/07_ft_support_vector_machine_classifier.joblib',
+		r'data/models/07_linear_svm_classifier.joblib',
+		r'data/models/08_knn_classifier.joblib',
+		r'data/models/09_decision_tree_classifier.joblib',
+		r'data/models/10_random_forest_classifier.joblib',
+		r'data/models/11_stochastic_gradient_descent_classifier.joblib',
+		r'data/models/12_xgboost_classifier.joblib',
+		r'data/models/13_lightgbm_classifier.joblib',
+	]
+
+	for p in paths:
+		try:
+			assets.append(joblib.load(p))
+		except Exception:
+			assets.append(None)
+
+	return tuple(assets)
 
