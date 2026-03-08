@@ -428,7 +428,7 @@ def load_assets():
 		r'data/vectorizers/tfidf_vectorizer.joblib',
 		r'data/models/05_logistic_regression_classifier.joblib',
 		r'data/models/06_naive_bayes_classifier.joblib',
-		r'data/models/07_ft_support_vector_machine_classifier.joblib',
+		r'data/models/07_ft_svm_classifier.joblib',
 		r'data/models/07_linear_svm_classifier.joblib',
 		r'data/models/08_knn_classifier.joblib',
 		r'data/models/09_decision_tree_classifier.joblib',
