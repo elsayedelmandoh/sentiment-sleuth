@@ -394,9 +394,58 @@ def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_s
 	return emb
 
 
-# logistic regression notebook
+# main.py helpers
+def ensure_nltk_resources(verbose: bool = False):
+	"""Ensure common NLTK resources are available in the Streamlit environment.
+
+	Downloads resources quietly by default. Returns True when complete.
+	"""
+	try:
+		import nltk
+		resources = ["punkt", "wordnet", "omw-1.4", "stopwords"]
+		for r in resources:
+			try:
+				nltk.data.find(f"corpora/{r}")
+			except LookupError:
+				try:
+					nltk.download(r, quiet=not verbose)
+				except Exception:
+					# best-effort; ignore failures here and let downstream code handle missing resources
+					pass
+	except Exception:
+		# If nltk is not available, caller will handle the ImportError when calling clean_text
+		return False
+	return True
 
 
-
-# naive bayes notebook
+def load_assets():
+	import streamlit as st
+	try:
+		vectorizer = joblib.load(r'data/vectorizers/tfidf_vectorizer.joblib')
+		lr_model = joblib.load(r'data/models/05_logistic_regression_classifier.joblib')
+		nb_model = joblib.load(r'data/models/06_naive_bayes_classifier.joblib')
+		ft_svm_model = joblib.load(r'data/models/07_ft_support_vector_machine_classifier.joblib')
+		linear_svm_model = joblib.load(r'data/models/07_linear_svm_classifier.joblib')
+		knn_model = joblib.load(r'data/models/08_knn_classifier.joblib')
+		decision_tree_model = joblib.load(r'data/models/09_decision_tree_classifier.joblib')
+		random_forest_model = joblib.load(r'data/models/10_random_forest_classifier.joblib')
+		sgd_model = joblib.load(r'data/models/11_stochastic_gradient_descent_classifier.joblib')
+		xgboost_model = joblib.load(r'data/models/12_xgboost_classifier.joblib')
+		lightgbm_model = joblib.load(r'data/models/13_lightgbm_classifier.joblib')
+		return (
+			vectorizer,
+			lr_model,
+			nb_model,
+			ft_svm_model,
+			linear_svm_model,
+			knn_model,
+			decision_tree_model,
+			random_forest_model,
+			sgd_model,
+			xgboost_model,
+			lightgbm_model,
+		)
+	except Exception as e:
+		st.error(f"Error loading models. Ensure the .joblib files are in the correct paths.\n{e}")
+		return (None, None, None, None, None, None, None, None, None, None, None)
 
