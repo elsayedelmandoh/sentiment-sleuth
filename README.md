@@ -1,8 +1,5 @@
 # Sentiment Analysis of Amazon Reviews using Machine Learning
 
-**Live Demo (Hugging Face Space):** [Sentiment Sleuth](https://huggingface.co/spaces/elsayedelmandoh/project-name)  
-**GitHub Repository:** [Sentiment Sleuth](https://github.com/elsayedelmandoh/sentiment-analysis-of-amazon-reviews-using-machine-learning-ml-queens)
-
 ## Table of Contents
 - [Overview](#overview)
 - [Key Features](#key-features)
