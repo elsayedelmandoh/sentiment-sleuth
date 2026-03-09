@@ -1,4 +1,4 @@
-# Sentiment Analysis of Amazon Reviews using Machine Learning
+# Sentiment Sleuth
 
 ## Table of Contents
 - [Overview](#overview)
