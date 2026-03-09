@@ -73,8 +73,7 @@ When the app starts, open the local URL printed in your terminal (usually http:/
 
 Model artifacts and vectorizers are loaded from `data/models/` and `data/vectorizers/`. If the vectorizer or model files are missing, the app will show an error message pointing to the expected files.
 
----
-## Reproducibility & Notebooks
+Reproducibility & Notebooks:   
 The `notebooks/` directory contains step-by-step analysis and model training notebooks. Key notebooks:
 - `01_data_acquisition.ipynb` — dataset loading and brief description
 - `02_eda.ipynb` — exploratory data analysis
@@ -95,9 +94,6 @@ Contributions are welcome! If you'd like to improve this project, please follow 
 5. Open a pull request.
 
 Please include reproducible steps and, if applicable, updated notebooks or scripts to regenerate models.
-
-## License
-This project is provided under the MIT license. See the `LICENSE` file for details.
 
 ## Author
 Elsayed Elmandoh - NLP Engineer  
