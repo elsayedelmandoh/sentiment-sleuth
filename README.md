@@ -105,3 +105,6 @@ Elsayed Elmandoh - NLP Engineer
 
 Mohamed Kamal - AI Engineer
 * Connect on [LinkedIn](https://www.linkedin.com/in/mohamed-kamal-has/?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+
+Mahmoud Magdy - Information Security Engineer
+* Connect on [LinkedIn](https://www.linkedin.com/in/mahmoud-magdy-raouf-8b62003a7/)
