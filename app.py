@@ -2,9 +2,7 @@ import streamlit as st
 from src.utils import helpers
 from src.config import settings
 
-
 st.set_page_config(page_title=settings.PROJECT_NAME, page_icon="🕵️", layout="centered")
-
 
 @st.cache_resource
 def load_cached_assets():
@@ -67,10 +65,7 @@ def map_label(pred):
 	# numeric encodings
 	try:
 		p = int(pred)
-		if p in (0,):
-			return "Negative"
 		if p in (1,):
-			# ambiguous: prefer 1->Negative per user's mapping if also used; check 2 below
 			return "Negative"
 		if p == 2:
 			return "Positive"
