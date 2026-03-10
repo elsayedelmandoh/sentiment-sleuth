@@ -4,36 +4,46 @@
 sentiment-analysis-of-amazon-reviews-using-machine-learning/
 ├── data/
 │   ├── models/          # Saved model files (.joblib)
-│   ├── predictions/     # Model prediction outputs (CSV)
 │   ├── processed/       # Cleaned & feature-engineered datasets
+│   │   ├── balanced_sample_train.csv
+│   │   ├── feat_eng_train.csv
+│   │   ├── processed_test.csv
 │   │   ├── processed_train.csv
 │   │   ├── processed_valid.csv
-│   │   ├── processed_test.csv
-│   │   └── feat_eng_train.csv
+│   │   ├── y_test.csv
+│   │   ├── y_train.csv
+│   │   └── y_valid.csv
 │   ├── raw/             # Original immutable dataset
+│   │   ├── readme.txt
 │   │   ├── train.csv
 │   │   └── test.csv
 │   ├── samples/         # Small sample files for quick testing
+│   |   ├── sample_test.csv
+│   |   ├── sample_train.csv
+│   |   └── sample_valid.csv
 │   └── vectorizers/     # Saved vectorizers and sparse matrices (TF-IDF)
 │       ├── tfidf_vectorizer.joblib
+│       ├── X_test_tfidf.npz
 │       ├── X_train_tfidf.npz
-│       └── X_test_tfidf.npz
+│       └── X_valid_tfidf.npz
 |
 ├── docs/
 │   ├── 00_research/
 │   │   ├── datasets.md
 │   │   ├── references.md
 │   │   └── related_projects.md
-│   └── 01_project_definition/
-│       ├── 00_quickstart.md
-│       ├── 01_problem.md
-│       ├── 02_goal.md
-│       ├── 03_solution.md
-│       ├── 04_stack.md
-│       ├── 05_architecture.md
-│       ├── 06_workflow.md
-│       ├── 07_structure.md    
-│       └── 08_report.md
+│   ├── 01_project_definition/
+│   |   ├── 00_quickstart.md
+│   |   ├── 01_problem.md
+│   |   ├── 02_goal.md
+│   |   ├── 03_solution.md
+│   |   ├── 04_stack.md
+│   |   ├── 05_architecture.md
+│   |   ├── 06_workflow.md
+│   |   ├── 07_structure.md    
+│   |   └── 08_report.md
+│   └── 02_results/     # Model prediction outputs
+|
 |
 ├── notebooks/          
 │   ├── 00_quickstartt.ipynb
@@ -61,10 +71,9 @@ sentiment-analysis-of-amazon-reviews-using-machine-learning/
 |       └── helpers.py     # Helper functions used by notebooks and app
 |
 ├── .env                 # Environment variables
-├── .gitignore           # List of files to ignore by git
 ├── .env.example         # Example of environment variables
 ├── .gitattributes
-├── .gitignore
+├── .gitignore           # List of files to ignore by git
 ├── app.py               # App/runner for model inference or demo
 ├── README.md            # Project overview and instructions to run
 └── requirements.txt     # List of dependencies (pandas, scikit-learn, etc.)

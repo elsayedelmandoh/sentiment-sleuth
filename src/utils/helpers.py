@@ -21,6 +21,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from datetime import datetime
+import os
 
 
 
@@ -422,6 +423,8 @@ def ensure_nltk_resources(verbose: bool = False):
 
 def load_assets():
 	# load assets individually to allow partial availability and clearer diagnostics
+	# Prefer local files; if missing and HF_ASSETS_REPO env var is set and
+	# `huggingface_hub` is installed, attempt to download missing files and cache them.
 	assets = []
 	paths = [
 		r'data/vectorizers/tfidf_vectorizer.joblib',
@@ -437,11 +440,73 @@ def load_assets():
 		r'data/models/13_lightgbm_classifier.joblib',
 	]
 
+	# optional HF Hub download function (import here to keep top-level failures rare)
+	try:
+		from huggingface_hub import hf_hub_download  # type: ignore
+	except Exception:
+		hf_hub_download = None
+
+	cache_dir = Path('data/remote_cache')
+	cache_dir.mkdir(parents=True, exist_ok=True)
+
+	hf_repo = os.environ.get('HF_ASSETS_REPO')
+	hf_repo_type = os.environ.get('HF_ASSETS_REPO_TYPE') or None
+
 	for p in paths:
-		try:
-			assets.append(joblib.load(p))
-		except Exception:
-			assets.append(None)
+		local_path = Path(p)
+		loaded = None
+
+		# 1) try local path first
+		if local_path.exists():
+			try:
+				loaded = joblib.load(local_path)
+				print(f"Loaded local asset: {local_path}")
+			except Exception as e:
+				print(f"Failed to load local asset {local_path}: {e}")
+				loaded = None
+		else:
+			# informative message only
+			print(f"Local asset not found: {local_path}")
+
+		# 2) fallback to HF Hub if available and configured
+		if loaded is None and hf_hub_download is not None and hf_repo:
+			filename = local_path.name
+			try:
+				print(f"Attempting to download '{filename}' from HF repo '{hf_repo}'...")
+				if hf_repo_type:
+					downloaded_path = hf_hub_download(repo_id=hf_repo, filename=filename, repo_type=hf_repo_type)
+				else:
+					downloaded_path = hf_hub_download(repo_id=hf_repo, filename=filename)
+
+				downloaded = Path(downloaded_path)
+				target = cache_dir / filename
+				# move or copy into our cache directory if necessary
+				try:
+					if not target.exists():
+						downloaded.replace(target)
+				except Exception:
+					try:
+						import shutil
+
+						if not target.exists():
+							shutil.copy2(downloaded, target)
+					except Exception:
+						pass
+
+				load_from = target if target.exists() else downloaded
+				loaded = joblib.load(load_from)
+				print(f"Downloaded and loaded asset: {load_from}")
+			except Exception as e:
+				print(f"Failed to download/load '{filename}' from HF Hub: {e}")
+				loaded = None
+		else:
+			if loaded is None:
+				if hf_hub_download is None:
+					print("huggingface_hub not installed; skipping HF download attempts.")
+				elif not hf_repo:
+					print("Environment variable 'HF_ASSETS_REPO' not set; skipping HF download attempts.")
+
+		assets.append(loaded)
 
 	return tuple(assets)
 

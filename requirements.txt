@@ -13,3 +13,4 @@ scipy==1.16.3
 xgboost==3.2.0
 lightgbm==4.6.0
 streamlit==1.55.0
+huggingface_hub==1.6.0
