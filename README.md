@@ -51,14 +51,14 @@ Before running this project, ensure you have the following installed:
 
 1. Clone the Repository
 ```bash
-git clone https://github.com/elsayedelmandoh/sentiment-analysis-of-amazon-reviews-using-machine-learning-ml-queens
-cd sentiment-analysis-of-amazon-reviews-using-machine-learning-ml-queens
+git clone https://github.com/elsayedelmandoh/sentiment-sleuth
+cd sentiment-sleuth
 ```
 2. Create Conda Environment
 ```bash
 # Create & activate the environment
-conda create -n env-name python=3.12 -y
-conda activate env-name
+conda create -n envname python=3.12 -y
+conda activate envname
 
 # Install pip and project dependencies
 conda install pip -y
@@ -67,6 +67,57 @@ pip install -r requirements.txt
 
 3. Environment Variables
 Create a `.env` file at the project root and add any necessary API keys or configuration variables
+
+HF Hub runtime download (recommended for Spaces)
+-----------------------------------------------
+To avoid committing large model artifacts to the repository, you can host them on the Hugging Face Hub and let the Streamlit app download them at runtime. Set the following environment variable in your `.env` or in the Space settings:
+
+- `HF_ASSETS_REPO`: The Hugging Face repository id (e.g. `username/repo-name`) that contains the artifact files.
+- `HF_ASSETS_REPO_TYPE` (optional): Use `dataset` if your assets were uploaded as a dataset rather than a model/repo.
+
+The app will attempt to load local files from `data/models/` and `data/vectorizers/` first. If a file is missing and `HF_ASSETS_REPO` is set and `huggingface_hub` is installed, the app will download the missing file into `data/remote_cache/` and then load it from there. This keeps your Git repository small and lets Hugging Face host large binaries.
+
+Example `.env` entries:
+
+```env
+HF_ASSETS_REPO=your-username/sentiment-artifacts
+HF_ASSETS_REPO_TYPE=dataset  # optional
+```
+
+Advanced runtime configuration
+-----------------------------
+You can control which files the app attempts to load and where downloaded assets are cached using these optional environment variables:
+
+- `HF_ASSET_FILES` — optional comma-separated list of asset paths (relative to repo). If set, this list overrides the built-in default asset filenames. Example:
+
+```env
+HF_ASSET_FILES=data/models/10_random_forest_classifier.joblib,data/vectorizers/tfidf_vectorizer.joblib
+```
+
+- `ASSET_CACHE_DIR` — optional path where downloaded artifacts are cached. Default: `data/remote_cache`.
+
+Example `.env` with overrides:
+
+```env
+HF_ASSETS_REPO=your-username/sentiment-artifacts
+HF_ASSET_FILES=data/models/10_random_forest_classifier.joblib,data/vectorizers/tfidf_vectorizer.joblib
+ASSET_CACHE_DIR=data/remote_cache
+```
+
+Behavior summary:
+- The app uses the asset list from `settings` (defaults are provided). If `HF_ASSET_FILES` is set in the environment it becomes the active list.
+- When an asset is missing locally and `HF_ASSETS_REPO` is set, the app will download it into `ASSET_CACHE_DIR` and then load from the cache.
+
+
+To upload artifacts to the Hub, you can use the `huggingface_hub` CLI or Python API. Example (Python):
+
+```python
+from huggingface_hub import Repository, HfApi
+api = HfApi()
+# create repo and upload files, or use `hf` CLI commands
+```
+
+Note: If you run the app locally without setting `HF_ASSETS_REPO`, ensure the `data/models/` and `data/vectorizers/` files exist locally.
 
 
 ## Usage
@@ -112,3 +163,16 @@ Mohamed Kamal - AI Engineer
 
 Mahmoud Magdy - Information Security Engineer
 * Connect on [LinkedIn](https://www.linkedin.com/in/mahmoud-magdy-raouf-8b62003a7/)
+
+---
+title: Sentiment Sleuth
+emoji: 🚀
+colorFrom: red
+colorTo: red
+sdk: docker
+app_port: 8501
+tags:
+- streamlit
+pinned: false
+short_description: ML-Powered Amazon Review Sentiment Analysis
+---

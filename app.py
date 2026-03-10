@@ -12,7 +12,11 @@ def load_cached_assets():
 	except Exception:
 		pass
 
-	# Return the full assets tuple from helpers.load_assets()
+	# Return the full assets tuple from helpers.load_assets().
+	# Behavior: helpers.load_assets() prefers local files under `data/`.
+	# If a file is missing and the environment variable `HF_ASSETS_REPO` is set,
+	# the helper will attempt to download the missing artifact from the
+	# specified Hugging Face repo and cache it to `data/remote_cache/`.
 	assets = helpers.load_assets()
 	return assets
 
@@ -224,7 +228,7 @@ def main():
 		st.subheader("Details")
 		st.write("**Original**:")
 		st.write(review)
-		st.write("**Cleaned (used for inference)**:")
+		st.write("**Cleaned**:")
 		st.write(cleaned)
 
 
