@@ -109,58 +109,57 @@ def apply_balance(df: pd.DataFrame, target_col: str = "target", random_state: in
 
 
 def plot_top_ngrams(corpus, n=1, top_k=20, stop_words='english', max_features=20000, figsize=(10,6), title=None):
-    """
-    Compute and plot the top n-grams from a text corpus.
+	"""
+	Compute and plot the top n-grams from a text corpus.
 
-    Parameters
-    ----------
-    corpus : iterable-like
-        Iterable of text documents (e.g., pandas Series).
-    n : int, optional
-        The n in n-grams (uses ngram_range=(n,n)). Default is 1 (unigrams).
-    top_k : int, optional
-        Number of top n-grams to show. Default is 20.
-    stop_words : str or list, optional
-        Stop words parameter forwarded to CountVectorizer. Default 'english'.
-    max_features : int, optional
-        Max features for the vectorizer. Default 20000.
-    figsize : tuple, optional
-        Figure size for the plot.
-    title : str, optional
-        Custom title for the plot. If None, a default title is used.
+	Parameters
+	----------
+	corpus : iterable-like
+		Iterable of text documents (e.g., pandas Series).
+	n : int, optional
+		The n in n-grams (uses ngram_range=(n,n)). Default is 1 (unigrams).
+	top_k : int, optional
+		Number of top n-grams to show. Default is 20.
+	stop_words : str or list, optional
+		Stop words parameter forwarded to CountVectorizer. Default 'english'.
+	max_features : int, optional
+		Max features for the vectorizer. Default 20000.
+	figsize : tuple, optional
+		Figure size for the plot.
+	title : str, optional
+		Custom title for the plot. If None, a default title is used.
 
-    Returns
-    -------
-    list of (term, count)
-        The top n-grams and their counts (sorted descending).
-    """
+	Returns
+	-------
+	list of (term, count)
+		The top n-grams and their counts (sorted descending).
+	"""
 
-    vec = CountVectorizer(ngram_range=(n, n), stop_words=stop_words, max_features=max_features)
-    X = vec.fit_transform(corpus)
-    sums = np.array(X.sum(axis=0)).ravel()
-    terms = np.array(vec.get_feature_names_out())
+	vec = CountVectorizer(ngram_range=(n, n), stop_words=stop_words, max_features=max_features)
+	X = vec.fit_transform(corpus)
+	sums = np.array(X.sum(axis=0)).ravel()
+	terms = np.array(vec.get_feature_names_out())
 
-    if terms.size == 0:
-        print("No terms found for the given corpus/parameters.")
-        return []
+	if terms.size == 0:
+		print("No terms found for the given corpus/parameters.")
+		return []
 
-    top_idx = sums.argsort()[::-1][:top_k]
-    top_terms = terms[top_idx]
-    top_counts = sums[top_idx]
+	top_idx = sums.argsort()[::-1][:top_k]
+	top_terms = terms[top_idx]
+	top_counts = sums[top_idx]
 
-    # Plot horizontal bar chart with largest on top
-    plt.figure(figsize=figsize)
-    plt.barh(top_terms[::-1], top_counts[::-1], color='steelblue')
-    plt.xlabel("Count")
-    plt.tight_layout()
-    if title is None:
-        title = f"Top {min(top_k, len(top_terms))} {n}-grams"
-    plt.title(title)
-    plt.show()
-
-    return list(zip(top_terms, top_counts))
-
-
+	# Plot horizontal bar chart with largest on top
+	plt.figure(figsize=figsize)
+	plt.barh(top_terms[::-1], top_counts[::-1], color='steelblue')
+	plt.xlabel("Count")
+	plt.tight_layout()
+	if title is None:
+		title = f"Top {min(top_k, len(top_terms))} {n}-grams"
+	plt.title(title)
+	plt.savefig(f'docs/02_results/top_{top_k}_{n}grams.png', dpi=300, bbox_inches='tight')
+	plt.show()
+		
+	return list(zip(top_terms, top_counts))
 
 # preprocessing notebook
 def clean_text(s):
@@ -292,7 +291,7 @@ def show_top_ngrams_by_class(df, target_col='review_target', text_col='review_cl
 				plt.title(f"Top {len(terms)} {nname} for class {cls}")
 				plt.xlabel("Count")
 				plt.tight_layout()
-				plt.savefig(f'data/predictions/top_{nname}_for_class_{cls}.png', dpi=300, bbox_inches='tight')
+				plt.savefig(f'docs/02_results/top_{nname}_for_class_{cls}.png', dpi=300, bbox_inches='tight')
 				plt.show()
 
 	return results
@@ -391,7 +390,7 @@ def plot_dimensionality_reduction(X, labels, method='PCA', sample=1000, random_s
 	plt.xlabel('dim1')
 	plt.ylabel('dim2')
 	plt.title(f'{method} projection')
-	plt.savefig(f'data/predictions/{method}_projection_{data_name}_{i}.png', dpi=300, bbox_inches='tight')
+	plt.savefig(f'docs/02_results/{method}_projection_{data_name}_{i}.png', dpi=300, bbox_inches='tight')
 	plt.show()
 
 	return emb
