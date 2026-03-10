@@ -1,5 +1,14 @@
 # Sentiment Sleuth
 
+[![github](https://img.shields.io/badge/GitHub-sentiment__sleuth-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/elsayedelmandoh/sentiment-sleuth)
+[![huggingface](https://img.shields.io/badge/Space-Hugging%20Face-yellow?style=for-the-badge&logo=huggingface&logoColor=black)](https://elsayedelmandoh-sentiment-sleuth.hf.space)
+
+<p align="center">
+  <img src="docs/02_results/pos_results.png" alt="Sentiment Sleuth — pos results" width="45%">
+  &nbsp; &nbsp;
+  <img src="docs/02_results/neg_results.png" alt="Sentiment Sleuth — neg results" width="45%">
+</p>
+
 ## Table of Contents
 - [Overview](#overview)
 - [Key Features](#key-features)
@@ -12,9 +21,8 @@
 - [Contributing](#contributing)
 - [Author](#author)
 
----
-## Overview
 
+## Overview
 ًThis is a project for performing sentiment analysis on Amazon product reviews using classical machine-learning models. The project includes data processing and feature engineering notebooks, multiple trained classifiers saved as joblib artifacts, a TF-IDF vectorizer, and a Streamlit UI to analyze custom review text.
 
 Key components in the repository:
@@ -27,13 +35,13 @@ Key components in the repository:
 
 The Streamlit app loads saved artifacts via `src.utils.helpers` and exposes multiple classifiers (`Logistic Regression, Naive Bayes, SVM variants, KNN, Decision Trees, Random Forest, SGD, XGBoost and LightGBM`) so you can compare predictions and confidence scores side-by-side.
 
----
+
 ## Key Features
 * **Multiple Models:** Compare results from several traditional classifiers (Logistic Regression, Naive Bayes, SVMs, KNN, Decision Trees, Random Forests, SGD, XGBoost, LightGBM).
 * **Reusable Artifacts:** TF-IDF vectorizer and trained models are persisted under `data/vectorizers/` and `data/models/` for fast local inference.
 * **Notebooks for Reproducibility:** Step-by-step Jupyter notebooks for data acquisition, EDA, preprocessing, feature engineering and model training are included under `notebooks/`.
 
----
+
 ## Setup
 0. Prerequisites
 Before running this project, ensure you have the following installed:
@@ -60,7 +68,7 @@ pip install -r requirements.txt
 3. Environment Variables
 Create a `.env` file at the project root and add any necessary API keys or configuration variables
 
----
+
 ## Usage
 This project uses Streamlit for the interactive UI. Start the app locally with one of the following commands:
 
@@ -84,7 +92,7 @@ The `notebooks/` directory contains step-by-step analysis and model training not
 
 Use these notebooks to retrain or refine models and regenerate the `joblib` artifacts saved in `data/models/`.
 
----
+
 ## Contributing
 Contributions are welcome! If you'd like to improve this project, please follow these steps:
 1. Fork the repository.
