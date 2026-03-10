@@ -1,10 +1,8 @@
+from __future__ import annotations
 from pathlib import Path
 import pandas as pd
 import numpy as np
-try:
-	import matplotlib.pyplot as plt
-except Exception:
-	plt = None
+import matplotlib.pyplot as plt
 import re
 import html
 from typing import Union
@@ -22,8 +20,6 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from datetime import datetime
 import os
-
-
 
 # data acquisition notebook
 def save(df_base: str = "data/processed", df: Union[pd.DataFrame, pd.Series] = None, df_name: str = "dataset.csv", 
@@ -422,91 +418,33 @@ def ensure_nltk_resources(verbose: bool = False):
 
 
 def load_assets():
-	# load assets individually to allow partial availability and clearer diagnostics
-	# Prefer local files; if missing and HF_ASSETS_REPO env var is set and
-	# `huggingface_hub` is installed, attempt to download missing files and cache them.
-	assets = []
-	paths = [
-		r'data/vectorizers/tfidf_vectorizer.joblib',
-		r'data/models/05_logistic_regression_classifier.joblib',
-		r'data/models/06_naive_bayes_classifier.joblib',
-		r'data/models/07_ft_svm_classifier.joblib',
-		r'data/models/07_linear_svm_classifier.joblib',
-		r'data/models/08_knn_classifier.joblib',
-		r'data/models/09_decision_tree_classifier.joblib',
-		r'data/models/10_random_forest_classifier.joblib',
-		r'data/models/11_stochastic_gradient_descent_classifier.joblib',
-		r'data/models/12_xgboost_classifier.joblib',
-		r'data/models/13_lightgbm_classifier.joblib',
-	]
+	"""Light wrapper that delegates to the HF-aware loader when available.
 
-	# optional HF Hub download function (import here to keep top-level failures rare)
+	This keeps top-level imports in `helpers` light so importing the module
+	doesn't require all heavy ML packages to be installed. When the HF
+	loader is unavailable, a very small local-only fallback is attempted.
+	"""
 	try:
-		from huggingface_hub import hf_hub_download  # type: ignore
-	except Exception:
-		hf_hub_download = None
+		# import the lightweight HF-aware loader we created
+		from .hf_loader import load_assets_hf
+		return load_assets_hf()
+	except Exception as e:
+		print(f"HF loader unavailable or failed to import: {e}")
 
-	cache_dir = Path('data/remote_cache')
-	cache_dir.mkdir(parents=True, exist_ok=True)
+	# Fallback: attempt simple local loads using the central ASSET_PATHS
+	from src.config import settings
+	ASSET_PATHS = list(settings.ASSET_PATHS)
 
-	hf_repo = os.environ.get('HF_ASSETS_REPO')
-	hf_repo_type = os.environ.get('HF_ASSETS_REPO_TYPE') or None
-
-	for p in paths:
-		local_path = Path(p)
-		loaded = None
-
-		# 1) try local path first
-		if local_path.exists():
-			try:
-				loaded = joblib.load(local_path)
-				print(f"Loaded local asset: {local_path}")
-			except Exception as e:
-				print(f"Failed to load local asset {local_path}: {e}")
-				loaded = None
-		else:
-			# informative message only
-			print(f"Local asset not found: {local_path}")
-
-		# 2) fallback to HF Hub if available and configured
-		if loaded is None and hf_hub_download is not None and hf_repo:
-			filename = local_path.name
-			try:
-				print(f"Attempting to download '{filename}' from HF repo '{hf_repo}'...")
-				if hf_repo_type:
-					downloaded_path = hf_hub_download(repo_id=hf_repo, filename=filename, repo_type=hf_repo_type)
-				else:
-					downloaded_path = hf_hub_download(repo_id=hf_repo, filename=filename)
-
-				downloaded = Path(downloaded_path)
-				target = cache_dir / filename
-				# move or copy into our cache directory if necessary
-				try:
-					if not target.exists():
-						downloaded.replace(target)
-				except Exception:
-					try:
-						import shutil
-
-						if not target.exists():
-							shutil.copy2(downloaded, target)
-					except Exception:
-						pass
-
-				load_from = target if target.exists() else downloaded
-				loaded = joblib.load(load_from)
-				print(f"Downloaded and loaded asset: {load_from}")
-			except Exception as e:
-				print(f"Failed to download/load '{filename}' from HF Hub: {e}")
-				loaded = None
-		else:
-			if loaded is None:
-				if hf_hub_download is None:
-					print("huggingface_hub not installed; skipping HF download attempts.")
-				elif not hf_repo:
-					print("Environment variable 'HF_ASSETS_REPO' not set; skipping HF download attempts.")
-
-		assets.append(loaded)
+	assets = []
+	for p in ASSET_PATHS:
+		if joblib is None:
+			assets.append(None)
+			continue
+		try:
+			assets.append(joblib.load(p))
+			print(f"Loaded local asset: {p}")
+		except Exception:
+			assets.append(None)
 
 	return tuple(assets)
 
