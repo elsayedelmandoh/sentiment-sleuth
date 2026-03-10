@@ -27,3 +27,7 @@ Thumbs.db
 .github/
 .specify/
 .vscode/
+generate_charts.py
+ppt_content.md
+PRESENTATION_OUTLINE.md
+charts/
