@@ -40,10 +40,10 @@ sentiment-analysis-of-amazon-reviews-using-machine-learning/
 │   |   ├── 04_stack.md
 │   |   ├── 05_architecture.md
 │   |   ├── 06_workflow.md
-│   |   ├── 07_structure.md    
-│   |   └── 08_report.md
-│   └── 02_results/     # Model prediction outputs
-|
+│   |   └── 07_structure.md    
+│   ├── 02_results/     
+│   ├── 03_report/          
+│   └── 04_presentation/     # Presentation slides and speaker notes
 |
 ├── notebooks/          
 │   ├── 00_quickstartt.ipynb
@@ -68,13 +68,16 @@ sentiment-analysis-of-amazon-reviews-using-machine-learning/
 │   │   └── settings.py   # configuration values and constants
 │   └── utils/
 │       ├── __init__.py
-|       └── helpers.py     # Helper functions used by notebooks and app
+│       ├── helpers.py      # Helper functions used by notebooks and app
+│       ├── hf_loader.py    # loader for GUI
+|       └── hf_uploader.py  # uploader for Hugging Face  
 |
 ├── .env                 # Environment variables
 ├── .env.example         # Example of environment variables
 ├── .gitattributes
 ├── .gitignore           # List of files to ignore by git
 ├── app.py               # App/runner for model inference or demo
+├── LICENSE              # License file
 ├── README.md            # Project overview and instructions to run
 └── requirements.txt     # List of dependencies (pandas, scikit-learn, etc.)
 ```
