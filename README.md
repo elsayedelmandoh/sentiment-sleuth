@@ -46,7 +46,7 @@ Key components in the repository:
 - Vectorizer and precomputed TF-IDF sparse matrices: `data/vectorizers/`
 - Processed datasets and samples: `data/processed/` and `data/samples/`
 - Notebooks: `notebooks/` (EDA, preprocessing, feature engineering, and model notebooks)
-- Documentation: `docs/` (research notes, project definition, workflow, and report)
+- Documentation: `docs/` (research research, project definition, results, report, and presentation)
 
 The Streamlit app loads saved artifacts via `src.utils.helpers` and exposes multiple classifiers (`Logistic Regression, Naive Bayes, SVM variants, KNN, Decision Trees, Random Forest, SGD, XGBoost and LightGBM`) so you can compare predictions and confidence scores side-by-side.
 

@@ -6,6 +6,8 @@ Citation: Character-level Convolutional Networks for Text Classification.[2]
 
 Dataset: Amazon reviews.[3]
 
+Dataset link (Kaggle): https://www.kaggle.com/datasets/kritanjalijain/amazon-reviews/
+
 Description: The dataset consists of approximately 1.8M training samples and 200K testing samples. It features three key columns:
 
 - Polarity: The target label (1=negative and 2=positive).
