@@ -38,7 +38,7 @@ sdk_version: 1.55.0
 
 
 ## Overview
-ًThis is a project for performing sentiment analysis on Amazon product reviews using classical machine-learning models. The project includes data processing and feature engineering notebooks, multiple trained classifiers saved as joblib artifacts, a TF-IDF vectorizer, and a Streamlit UI to analyze custom review text.
+This is a project for performing sentiment analysis on Amazon product reviews using classical machine-learning models. The project includes data processing and feature engineering notebooks, multiple trained classifiers saved as joblib artifacts, a TF-IDF vectorizer, and a Streamlit UI to analyze custom review text.
 
 Key components in the repository:
 - Interactive app: `app.py` (Streamlit)
