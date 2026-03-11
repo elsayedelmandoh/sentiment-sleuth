@@ -1,3 +1,16 @@
+---
+title: Sentiment Sleuth
+emoji: 🚀
+colorFrom: red
+colorTo: red
+sdk: docker
+app_port: 8501
+tags:
+- streamlit
+pinned: false
+short_description: ML-Powered Amazon Review Sentiment Analysis
+---
+
 # Sentiment Sleuth
 
 [![github](https://img.shields.io/badge/GitHub-sentiment__sleuth-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/elsayedelmandoh/sentiment-sleuth)
@@ -164,15 +177,3 @@ Mohamed Kamal - AI Engineer
 Mahmoud Magdy - Information Security Engineer
 * Connect on [LinkedIn](https://www.linkedin.com/in/mahmoud-magdy-raouf-8b62003a7/)
 
----
-title: Sentiment Sleuth
-emoji: 🚀
-colorFrom: red
-colorTo: red
-sdk: docker
-app_port: 8501
-tags:
-- streamlit
-pinned: false
-short_description: ML-Powered Amazon Review Sentiment Analysis
----

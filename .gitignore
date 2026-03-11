@@ -11,7 +11,9 @@ dist/
 *.egg-info/
 
 # Data 
-data/
+data/raw
+data/samples
+data/processed
 
 # IDE
 .vscode/
@@ -32,6 +34,7 @@ ppt_content.md
 PRESENTATION_OUTLINE.md
 charts/
 docs/PPT_VISUAL_SUGGESTIONS.md
+docs/01_project_definition/proposal.pdf
 docs/02_results/
 docs/03_report/
 docs/04_presentation/
