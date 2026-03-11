@@ -3,12 +3,14 @@ title: Sentiment Sleuth
 emoji: 🚀
 colorFrom: red
 colorTo: red
-sdk: docker
+sdk: streamlit
 app_port: 8501
 tags:
 - streamlit
 pinned: false
 short_description: ML-Powered Amazon Review Sentiment Analysis
+license: mit
+sdk_version: 1.55.0
 ---
 
 # Sentiment Sleuth
