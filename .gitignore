@@ -34,7 +34,14 @@ ppt_content.md
 PRESENTATION_OUTLINE.md
 charts/
 docs/PPT_VISUAL_SUGGESTIONS.md
+<<<<<<< HEAD
 docs/01_project_definition/proposal.pdf
 docs/02_results/
 docs/03_report/
 docs/04_presentation/
+=======
+docs/03_report/report.md
+docs/04_presentation/presentation_script.md
+docs/04_presentation/01_slide11.mp3
+docs/04_presentation/01_slide12.mp3
+>>>>>>> 6f49eb4a7907defc2eefd73bfcb141b6801e51e1
