@@ -18,3 +18,14 @@
 - nltk
 - spacy
 
+# 3. GUI
+- streamlit
+
+# 4. Deployment
+- Hugging Face
+
+# 5. Version Control
+- git
+
+# 6. IDE
+- Jupyter Notebook

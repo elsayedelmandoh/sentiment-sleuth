@@ -17,6 +17,8 @@ Models: We will train and compare the following classifiers:
 *5. Decision Trees:*   
 *6. Random Forest:* To evaluate ensemble methods against linear models.   
 *7. Stochastic Gradient Descent (SGD):* For efficient handling of large-scaled data.
+*8. XgBoost:* To assess the performance of gradient boosting methods.
+*9. LightGBM:* To evaluate the performance of gradient boosting methods.
 
 
 **4. Evaluation Plan:**   
