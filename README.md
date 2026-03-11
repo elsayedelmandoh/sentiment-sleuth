@@ -38,7 +38,7 @@ sdk_version: 1.55.0
 
 
 ## Overview
-This is a project for performing sentiment analysis on Amazon product reviews using classical machine-learning models. The project includes data processing and feature engineering notebooks, multiple trained classifiers saved as joblib artifacts, a TF-IDF vectorizer, and a Streamlit UI to analyze custom review text.
+Sentiment Sleuth tests whether traditional machine learning is still practical for real-world sentiment tasks. Built as our CSCI‑801 master’s project at Queen’s, the pipeline prioritizes speed, computational efficiency, and low deployment cost—avoiding heavy deep models. With disciplined preprocessing, TF‑IDF n‑grams, stratified sampling and careful hyperparameter tuning, lightweight classifiers remain highly competitive (SGD champion, Acc 0.8903, F1 0.8902). Includes notebooks, saved artifacts, and a live demo on Hugging Face.
 
 Key components in the repository:
 - Interactive app: `app.py` (Streamlit)
