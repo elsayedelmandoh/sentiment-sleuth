@@ -173,7 +173,7 @@ Please include reproducible steps and, if applicable, updated notebooks or scrip
 Elsayed Elmandoh - NLP Engineer  
 * Connect on LinkedIn & X [Linktree](https://linktr.ee/elsayedelmandoh)
 
-Mohamed Kamal - AI Engineer
+Mohamed Kamal - Senior Data Scientist
 * Connect on [LinkedIn](https://www.linkedin.com/in/mohamed-kamal-has/?utm_source=share_via&utm_content=profile&utm_medium=member_android)
 
 Mahmoud Magdy - Information Security Engineer
